@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers;
+<?php namespace Pmp\Http\Controllers;
 
 use Illuminate\Support\Facades\Config;
 
