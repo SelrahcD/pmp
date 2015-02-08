@@ -16,7 +16,7 @@ class EmailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function equals_returns_true_if_email_are_equal()
+    public function equals_returns_true_if_emails_are_equal()
     {
         $email1 = new Email('toto@test.fr');
         $email2 = new Email('toto@test.fr');
@@ -26,7 +26,7 @@ class EmailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function equals_return_false_if_email_are_not_equal()
+    public function equals_return_false_if_emails_are_not_equal()
     {
         $email1 = new Email('toto@test.fr');
         $email2 = new Email('plop@test.fr');
