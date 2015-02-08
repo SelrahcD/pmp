@@ -14,6 +14,8 @@ class AppServiceProvider extends ServiceProvider {
 		//
 	}
 
+
+
 	/**
 	 * Register any application services.
 	 *
@@ -28,6 +30,11 @@ class AppServiceProvider extends ServiceProvider {
 		$this->app->bind(
 			'Illuminate\Contracts\Auth\Registrar',
 			'Pmp\Services\Registrar'
+		);
+
+		$this->app->bind(
+			'Pmp\Domain\Model\User\UserRepository',
+			'Pmp\Infrastructure\Repositories\UserDoctrineOrmRepository'
 		);
 	}
 
