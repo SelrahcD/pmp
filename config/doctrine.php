@@ -8,8 +8,8 @@ return [
     ],
 
     'proxy' => [
-        'auto_generate' => false,
-        'directory'     => null,
+        'auto_generate' => true,
+        'directory'     => storage_path(). '/framework/proxies',
         'namespace'     => null
     ],
 
