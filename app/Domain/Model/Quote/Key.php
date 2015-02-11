@@ -44,7 +44,7 @@ class Key {
 
     static private function getRandomString($length)
     {
-        return '12345';
+        return substr(str_shuffle(MD5(microtime())), 0, $length);
     }
     
 }
