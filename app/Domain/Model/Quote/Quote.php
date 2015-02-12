@@ -4,6 +4,7 @@ namespace Pmp\Domain\Model\Quote;
 use Doctrine\ORM\Mapping as ORM;
 use Pmp\Core\Events\EventRecorder;
 use Pmp\Domain\Model\User\User;
+use Pmp\Domain\Model\Market\Market;
 
 /**
  * @ORM\Entity
@@ -30,9 +31,15 @@ class Quote {
      **/
     private $customer;
 
-    public function __construct(Key $key, User $customer)
+    /**
+     * @ORM\ManyToOne(targetEntity="Pmp\Domain\Market\Market", inversedBy="markets")
+     */
+    private $market;
+
+    public function __construct(Key $key, User $customer, Market $market)
     {
         $this->communication_key = $key->toNative();
         $this->customer          = $customer;
+        $this->market            = $market;
     }
 }

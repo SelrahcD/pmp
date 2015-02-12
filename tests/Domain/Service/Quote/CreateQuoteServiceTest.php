@@ -4,6 +4,8 @@ use Mockery as m;
 use Pmp\Domain\Service\Quote\CreateQuoteService;
 use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\User\Email;
+use Pmp\Domain\Model\Market\Market;
+use Pmp\Domain\Model\Market\Url;
 
 class CreateQuoteServiceTest extends PHPUnit_Framework_TestCase
 {
@@ -29,7 +31,8 @@ class CreateQuoteServiceTest extends PHPUnit_Framework_TestCase
         $this->repository->shouldReceive('add')->once()->andReturn(null);
 
         $user = User::register(new Email('poney@poney.fr'));
-        $quote = $this->service->createQuoteForMember($user);
+        $market = new Market(new Url('http://poney.fr'));
+        $quote = $this->service->createQuoteForMember($user, $market);
 
         $this->assertInstanceOf('Pmp\Domain\Model\Quote\Quote', $quote);
     }
@@ -43,7 +46,8 @@ class CreateQuoteServiceTest extends PHPUnit_Framework_TestCase
         $this->repository->shouldReceive('add')->once()->andReturn(null);
         $this->registerUserService->shouldReceive('register')->once()->with('poney@poney.fr')->andReturn(User::register(new Email('poney@poney.fr')));
 
-        $quote = $this->service->createQuoteForGuest('poney@poney.fr');
+        $market = new Market(new Url('http://poney.fr'));
+        $quote = $this->service->createQuoteForGuest('poney@poney.fr', $market);
 
         $this->assertInstanceOf('Pmp\Domain\Model\Quote\Quote', $quote);
     }
