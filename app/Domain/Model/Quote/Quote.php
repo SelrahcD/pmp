@@ -30,16 +30,9 @@ class Quote {
      **/
     private $customer;
 
-    private function __construct(Key $key, User $customer)
+    public function __construct(Key $key, User $customer)
     {
         $this->communication_key = $key->toNative();
         $this->customer          = $customer;
-    }
-
-    static public function askForQuote(Key $key, User $customer)
-    {
-        $quote = new self($key, $customer);
-
-        return $quote;
     }
 }
