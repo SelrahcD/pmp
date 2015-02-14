@@ -25,4 +25,9 @@ class Market {
     {
         $this->url = $url->toNative();
     }
+
+    public function __toString()
+    {
+        return $this->url;
+    }
 }
