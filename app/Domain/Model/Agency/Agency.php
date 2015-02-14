@@ -6,12 +6,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\Market\Market;
 use DomainException;
+use Pmp\Core\Events\EventRecorder;
+use Pmp\Domain\Model\Agency\Events\NewAgencyReferencedEvent;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="agencies")
  */
 class Agency {
+
+    use EventRecorder;
 
     /**
      * @ORM\Id
@@ -30,10 +34,21 @@ class Agency {
      */
     private $agencyMarketLinks;
 
-    public function __construct(Name $name)
+    private function __construct(Name $name)
     {
         $this->name              = $name->toNative();
         $this->agencyMarketLinks = new ArrayCollection();
+    }
+
+    static public function referenceAgency($name)
+    {
+        $name = new Name($name);
+
+        $agence = new self($name);
+
+        $agence->recordThat(new NewAgencyReferencedEvent($name));
+
+        return $agence;
     }
 
     public function prospect(Market $market, User $productionManager)

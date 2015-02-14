@@ -12,10 +12,29 @@ class AgencyTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->agency = new Agency(new Name('Poney'));
+        $this->agency = Agency::referenceAgency('Poney');
         $this->produtionManager1 = User::register(new Email('prod@poney.fr'));
         $this->produtionManager2 = User::register(new Email('prod@poney.fr'));
         $this->market = new Market(new Url('http://market1.fr'));
+    }
+
+    /**
+     * @test
+     */
+    public function referenceAgency_returns_new_agency()
+    {
+        $agency = Agency::referenceAgency('agency name');
+        $this->assertInstanceOf('Pmp\Domain\Model\Agency\Agency', $agency);
+    }
+
+    /**
+     * @test
+     */
+    public function referenceAgency_stores_NewAgencyRefrencedEvent()
+    {
+        $agency = Agency::referenceAgency('agency name');
+        $events = $agency->getRecordedEvents();
+        $this->assertInstanceOf('Pmp\Domain\Model\Agency\Events\NewAgencyReferencedEvent', reset($events));
     }
 
     /**
