@@ -49,4 +49,9 @@ class AgencyMarketLink {
     {
         return $this->productionManager;
     }
+
+    public function changeProductionManager(User $productionManager)
+    {
+        $this->productionManager = $productionManager;  
+    }
 }

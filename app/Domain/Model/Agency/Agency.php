@@ -67,6 +67,18 @@ class Agency {
         throw new DomainException(sprintf('Agency %s is not referenced on marker %s', $this, $market));
     }
 
+    public function changeProductionManager(Market $market, User $productionManager)
+    {
+        foreach($this->agencyMarketLinks as $agencyMarketLink) {
+            if($agencyMarketLink->getMarket() === $market) {
+                return $agencyMarketLink->changeProductionManager($productionManager);
+            }
+        }
+
+        throw new DomainException(sprintf('Agency %s is not referenced on marker %s', $this, $market));
+   
+    }
+
     public function __toString()
     {
         return $this->name;
