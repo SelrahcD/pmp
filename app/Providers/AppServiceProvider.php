@@ -46,6 +46,11 @@ class AppServiceProvider extends ServiceProvider {
 			'Pmp\Domain\Model\Market\MarketRepository',
 			'Pmp\Infrastructure\Repositories\MarketDoctrineOrmRepository'
 		);
+
+		$this->app->bind(
+			'Pmp\Domain\Model\Agency\AgencyRepository',
+			'Pmp\Infrastructure\Repositories\AgencyDoctrineOrmRepository'
+		);
 	}
 
 }
