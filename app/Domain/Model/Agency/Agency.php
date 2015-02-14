@@ -54,7 +54,7 @@ class Agency {
     public function prospect(Market $market, User $productionManager)
     {
         if($this->isReferencedOn($market)) {
-            throw new DomainException(sprintf('Agency %s already referenced on market %s', $this, $market));
+            throw new DomainException(sprintf('Agency %s is already referenced on market %s', $this, $market));
         }
 
         $this->agencyMarketLinks[] = new AgencyMarketLink($this, $market, $productionManager);
@@ -79,7 +79,7 @@ class Agency {
             }
         }
 
-        throw new DomainException(sprintf('Agency %s is not referenced on marker %s', $this, $market));
+        throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
     }
 
     public function changeProductionManager(Market $market, User $productionManager)
@@ -90,7 +90,7 @@ class Agency {
             }
         }
 
-        throw new DomainException(sprintf('Agency %s is not referenced on marker %s', $this, $market));
+        throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
    
     }
 
