@@ -32,7 +32,7 @@ class Quote {
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Pmp\Domain\Market\Market", inversedBy="markets")
+     * @ORM\ManyToOne(targetEntity="Pmp\Domain\Model\Market\Market", inversedBy="markets")
      */
     private $market;
 
