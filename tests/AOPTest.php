@@ -11,8 +11,6 @@ class AOPTest extends TestCase {
     public function setUp()
     {
         $this->createApplication();
-
-        AnnotationRegistry::registerFile(__DIR__ . '/../app/Infrastructure/Annotations/Loggable.php');
     }
 
     /**
