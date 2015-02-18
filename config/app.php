@@ -144,6 +144,7 @@ return [
 		'Pmp\Providers\ConfigServiceProvider',
 		'Pmp\Providers\EventServiceProvider',
 		'Pmp\Providers\RouteServiceProvider',
+		'Pmp\Providers\AopServiceProvider',
 
 		'Mitch\LaravelDoctrine\LaravelDoctrineServiceProvider',
 	],
