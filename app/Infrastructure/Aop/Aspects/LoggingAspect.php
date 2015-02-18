@@ -3,17 +3,25 @@ namespace Pmp\Infrastructure\Aop\Aspects;
 
 use Go\Aop\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
-use Go\Lang\Annotation\After;
-use Go\Lang\Annotation\Before;
 use Go\Lang\Annotation\Around;
 
 class LoggingAspect implements Aspect
 {
     /**
-     * @Before("execution(public Pmp\Domain\Model\Agency\Agency->prospect(*))")
+     * @Around("@execution(Pmp\Infrastructure\Annotations\Loggable)")
+     * @return mixed
      */
-    public function beforeMethodExecution(MethodInvocation $invocation)
+    public function aroundLoggable(MethodInvocation $invocation)
     {
-        echo "Executing " . $invocation->getMethod()->name;
+        $method = $invocation->getMethod()->name;
+        echo "Entering " . $method;
+        try {
+            $result = $invocation->proceed();
+            echo "Success: " . $method;
+        } catch (Exception $e) {
+            echo "Error: " . $method . ' details: ' . $e;
+            throw $e;
+        }
+        return $result;
     }
 }
