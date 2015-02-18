@@ -6,12 +6,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\Market\Market;
 use DomainException;
+use Pmp\Core\Events\EventRecorder;
+use Pmp\Domain\Model\Agency\Events\NewAgencyReferencedEvent;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="agencies")
  */
 class Agency {
+
+    use EventRecorder;
 
     /**
      * @ORM\Id
@@ -30,16 +34,27 @@ class Agency {
      */
     private $agencyMarketLinks;
 
-    public function __construct(Name $name)
+    private function __construct(Name $name)
     {
         $this->name              = $name->toNative();
         $this->agencyMarketLinks = new ArrayCollection();
     }
 
+    static public function referenceAgency($name)
+    {
+        $name = new Name($name);
+
+        $agence = new self($name);
+
+        $agence->recordThat(new NewAgencyReferencedEvent($name));
+
+        return $agence;
+    }
+
     public function prospect(Market $market, User $productionManager)
     {
         if($this->isReferencedOn($market)) {
-            throw new DomainException(sprintf('Agency %s already referenced on market %s', $this, $market));
+            throw new DomainException(sprintf('Agency %s is already referenced on market %s', $this, $market));
         }
 
         $this->agencyMarketLinks[] = new AgencyMarketLink($this, $market, $productionManager);
@@ -64,7 +79,19 @@ class Agency {
             }
         }
 
-        throw new DomainException(sprintf('Agency %s is not referenced on marker %s', $this, $market));
+        throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
+    }
+
+    public function changeProductionManager(Market $market, User $productionManager)
+    {
+        foreach($this->agencyMarketLinks as $agencyMarketLink) {
+            if($agencyMarketLink->getMarket() === $market) {
+                return $agencyMarketLink->changeProductionManager($productionManager);
+            }
+        }
+
+        throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
+   
     }
 
     public function __toString()
