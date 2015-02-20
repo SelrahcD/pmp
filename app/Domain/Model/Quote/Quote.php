@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Pmp\Core\Events\EventRecorder;
 use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\Market\Market;
+use Pmp\Domain\Model\Itinerary\Itinerary;
 
 /**
  * @ORM\Entity
@@ -36,6 +37,8 @@ class Quote {
      */
     private $market;
 
+    private $itinerary;
+
     public function __construct(Key $key, User $customer, Market $market)
     {
         $this->communication_key = $key->toNative();
@@ -46,5 +49,24 @@ class Quote {
     public function createFromScratch(Key $key, User $customer, Market $market)
     {
         return new self($key, $customer, $market);
+    }
+
+    public function createFromItinerary(Key $key, User $customer, Itinerary $itinerary)
+    {
+        $quote = new self($key, $customer, $itinerary->getMarket());
+
+        $quote->setAssociatedItinerary($itinerary);
+
+        return $quote;
+    }
+
+    public function getAssociatedItinerary()
+    {
+        return $this->itinerary;
+    }
+
+    private function setAssociatedItinerary($itinerary)
+    {
+        $this->itinerary = $itinerary;
     }
 }
