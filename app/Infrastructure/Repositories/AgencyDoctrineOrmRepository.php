@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Pmp\Domain\Model\Agency\AgencyRepository;
 use Pmp\Domain\Model\Agency\Agency;
 use Pmp\Domain\Model\Agency\Name;
+use Pmp\Infrastructure\Annotations\Loggable;
 
 class AgencyDoctrineOrmRepository implements AgencyRepository
 {
@@ -23,6 +24,9 @@ class AgencyDoctrineOrmRepository implements AgencyRepository
         $this->em->flush();
     }
 
+    /**
+     * @Loggable
+     */
     public function agencyOfName(Name $name)
     {
         return $this->em->getRepository($this->class)->findOneBy([

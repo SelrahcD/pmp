@@ -17,7 +17,6 @@ class LoggingAspect implements Aspect
         echo "Entering " . $method;
         try {
             $result = $invocation->proceed();
-            echo "Success: " . $method;
         } catch (Exception $e) {
             echo "Error: " . $method . ' details: ' . $e;
             throw $e;
