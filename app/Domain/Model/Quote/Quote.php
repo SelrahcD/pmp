@@ -42,4 +42,9 @@ class Quote {
         $this->customer          = $customer;
         $this->market            = $market;
     }
+
+    public function createFromScratch(Key $key, User $customer, Market $market)
+    {
+        return new self($key, $customer, $market);
+    }
 }
