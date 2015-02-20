@@ -41,7 +41,7 @@ class Quote {
 
     private $assigned_agent;
 
-    public function __construct(Key $key, User $customer, Market $market)
+    private function __construct(Key $key, User $customer, Market $market)
     {
         $this->communication_key = $key->toNative();
         $this->customer          = $customer;

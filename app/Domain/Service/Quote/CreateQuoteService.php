@@ -35,7 +35,7 @@ class CreateQuoteService
 
     private function createAndSaveQuote(User $user, Market $market)
     {
-        $quote = new Quote($this->getValidQuoteKey(), $user, $market);
+        $quote = Quote::createFromScratch($this->getValidQuoteKey(), $user, $market);
 
         $this->quoteRepository->add($quote);
 
