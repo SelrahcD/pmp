@@ -39,6 +39,8 @@ class Quote {
 
     private $itinerary;
 
+    private $assigned_agent;
+
     public function __construct(Key $key, User $customer, Market $market)
     {
         $this->communication_key = $key->toNative();
@@ -57,6 +59,8 @@ class Quote {
 
         $quote->setAssociatedItinerary($itinerary);
 
+        $quote->assignToAgent($itinerary->getRepresentativeAgent());
+
         return $quote;
     }
 
@@ -65,7 +69,17 @@ class Quote {
         return $this->itinerary;
     }
 
-    private function setAssociatedItinerary($itinerary)
+    public function assignToAgent(User $agent)
+    {
+        $this->assigned_agent = $agent;
+    }
+
+    public function getAssignedAgent()
+    {
+        return $this->assigned_agent;
+    }
+
+    private function setAssociatedItinerary(Itinerary $itinerary)
     {
         $this->itinerary = $itinerary;
     }

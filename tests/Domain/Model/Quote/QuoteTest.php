@@ -16,9 +16,10 @@ class QuoteTest extends PHPUnit_Framework_TestCase
     {
         $this->key = Key::generate();
         $this->customer = User::register(new Email('customer@test.fr'));
+        $this->agent = User::register(new Email('agent@test.fr'));
         $this->market = new Market(new Url('http://test.fr'));
         $this->agency = Agency::referenceAgency('BZHTour');
-        $this->itinerary = new Itinerary(new Title('Rennes et sa région'), $this->agency, $this->market);
+        $this->itinerary = new Itinerary(new Title('Rennes et sa région'), $this->agency, $this->market, $this->agent);
     }
 
    /**
@@ -46,6 +47,25 @@ class QuoteTest extends PHPUnit_Framework_TestCase
    {
         $quote = Quote::createFromItinerary($this->key, $this->customer, $this->itinerary);
         $this->assertEquals($this->itinerary, $quote->getAssociatedItinerary());
+   }
+
+   /**
+    * @test
+    */
+   public function createFromItinerary_auto_assigns_to_itinerary_representative_agent()
+   {
+        $quote = Quote::createFromItinerary($this->key, $this->customer, $this->itinerary);
+        $this->assertEquals($this->agent, $quote->getAssignedAgent());
+   }
+
+   /**
+    * @test
+    */
+   public function assignToAgent_stores_assigned_agent()
+   {
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote->assignToAgent($this->agent);
+        $this->assertEquals($this->agent, $quote->getAssignedAgent());
    }
 
 
