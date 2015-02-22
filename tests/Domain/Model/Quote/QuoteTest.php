@@ -9,6 +9,7 @@ use Pmp\Domain\Model\Market\Url;
 use Pmp\Domain\Model\Itinerary\Itinerary;
 use Pmp\Domain\Model\Itinerary\Title;
 use Pmp\Domain\Model\Agency\Agency;
+use Money\Money;
 
 class QuoteTest extends PHPUnit_Framework_TestCase
 {
@@ -66,6 +67,46 @@ class QuoteTest extends PHPUnit_Framework_TestCase
         $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
         $quote->assignToAgent($this->agent);
         $this->assertEquals($this->agent, $quote->getAssignedAgent());
+   }
+
+   /**
+    * @test
+    */
+   public function getAmount_returns_the_sum_of_princing_items()
+   {
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
+        $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
+        $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
+        $this->assertTrue(Money::EUR(2000)->equals($quote->getAmount()));
+   }
+
+   /**
+    * @test
+    */
+   public function getCommissionAmount_returns_the_sum_of_commissionable_princing_items()
+   {
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
+        $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
+        $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
+        $this->assertTrue(Money::EUR(150)->equals($quote->getCommissionAmount()));
+   }
+
+   /**
+    * @test
+    */
+   public function getAmount_returns_the_sum_of_princing_items_after_update()
+   {
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
+        $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
+        $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
+        
+        $pricingItems = $quote->getPricingItems();
+        $pricingItems[0]->changeAmount(Money::EUR(500));
+
+        $this->assertTrue(Money::EUR(1500)->equals($quote->getAmount()));
    }
 
 

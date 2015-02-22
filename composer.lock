@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa92396051b11c1076e428e4884a1d04",
+    "hash": "53467e7a88d5c5be54dfbc40c9f7c0df",
     "packages": [
         {
             "name": "apigen/token-reflection",
@@ -1363,12 +1363,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lisachenko/go-aop-php.git",
-                "reference": "0d51cfc5c14eb63816eddedd69f8110d60fcc5ca"
+                "reference": "31580fab132893ee3d4eea448e27484e4feec82b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lisachenko/go-aop-php/zipball/0d51cfc5c14eb63816eddedd69f8110d60fcc5ca",
-                "reference": "0d51cfc5c14eb63816eddedd69f8110d60fcc5ca",
+                "url": "https://api.github.com/repos/lisachenko/go-aop-php/zipball/31580fab132893ee3d4eea448e27484e4feec82b",
+                "reference": "31580fab132893ee3d4eea448e27484e4feec82b",
                 "shasum": ""
             },
             "require": {
@@ -1415,7 +1415,62 @@
                 "library",
                 "php"
             ],
-            "time": "2015-02-07 20:37:32"
+            "time": "2015-02-18 11:46:17"
+        },
+        {
+            "name": "mathiasverraes/money",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mathiasverraes/money.git",
+                "reference": "81aefc6c6a8512eb9e3c784fe6e3db56585e2b30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mathiasverraes/money/zipball/81aefc6c6a8512eb9e3c784fe6e3db56585e2b30",
+                "reference": "81aefc6c6a8512eb9e3c784fe6e3db56585e2b30",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "Sylius/SyliusMoneyBundle": "Sylius' Symfony2 integration with Money library",
+                "TheBigBrainsCompany/TbbcMoneyBundle": "Very complete Symfony2 bundle with support for Twig, Doctrine, Forms, ...",
+                "pink-tie/money-bundle": "Pink-Tie's Symfony2 integration with Money library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Money": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathias Verraes",
+                    "email": "mathias@verraes.net"
+                }
+            ],
+            "description": "PHP implementation of Fowler's Money pattern",
+            "homepage": "http://verraes.net/2011/04/fowler-money-pattern-in-php/",
+            "keywords": [
+                "Generic Sub-domain",
+                "Value Object",
+                "money"
+            ],
+            "time": "2015-01-27 15:13:00"
         },
         {
             "name": "mitchellvanw/laravel-doctrine",
@@ -1423,12 +1478,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mitchellvanw/laravel-doctrine.git",
-                "reference": "e4932f43d55d95aa19b061c3aa4ce652695ed483"
+                "reference": "740a8e6ac3754eb7b6c8a230aadc090c45aa5f76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mitchellvanw/laravel-doctrine/zipball/e4932f43d55d95aa19b061c3aa4ce652695ed483",
-                "reference": "e4932f43d55d95aa19b061c3aa4ce652695ed483",
+                "url": "https://api.github.com/repos/mitchellvanw/laravel-doctrine/zipball/740a8e6ac3754eb7b6c8a230aadc090c45aa5f76",
+                "reference": "740a8e6ac3754eb7b6c8a230aadc090c45aa5f76",
                 "shasum": ""
             },
             "require": {
@@ -1465,7 +1520,7 @@
                 "laravel",
                 "orm"
             ],
-            "time": "2015-01-30 17:39:15"
+            "time": "2015-02-09 23:12:34"
         },
         {
             "name": "mockery/mockery",
@@ -3658,7 +3713,8 @@
     "stability-flags": {
         "mitchellvanw/laravel-doctrine": 20,
         "lisachenko/go-aop-php": 20,
-        "doctrine/common": 20
+        "doctrine/common": 20,
+        "mathiasverraes/money": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
