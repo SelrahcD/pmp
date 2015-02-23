@@ -105,6 +105,11 @@ class Quote {
         return $this->pricingItems;
     }
 
+    public function removePricingItem(PricingItem $pricingItem)
+    {
+        $this->pricingItems->removeElement($pricingItem);
+    }
+
     public function getAmount()
     {
         $total = null;

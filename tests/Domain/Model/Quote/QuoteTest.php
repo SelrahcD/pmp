@@ -93,4 +93,23 @@ class QuoteTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Money::EUR(150)->equals($quote->getCommissionAmount()));
    }
 
+   /**
+    * @test
+    */
+   public function removePricingItem_removes_pricing_item()
+   {
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
+        $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
+        $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
+        $this->assertTrue(Money::EUR(2000)->equals($quote->getAmount()));
+        $this->assertEquals(3, count($quote->getPricingItems()));
+
+        $pricingItemToBeRemoved = $quote->getPricingItems()[0];
+        $quote->removePricingItem($pricingItemToBeRemoved);
+
+        $this->assertTrue(Money::EUR(1000)->equals($quote->getAmount()));
+        $this->assertEquals(2, count($quote->getPricingItems()));
+   }
+
 }
