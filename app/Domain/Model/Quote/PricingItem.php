@@ -24,11 +24,6 @@ class PricingItem
         $this->commissionRate = $commissionRate;
     }
 
-    public function changeAmount(Money $amount)
-    {
-        $this->amount = $amount;
-    }
-
     public function getAmount()
     {
         return $this->amount;
