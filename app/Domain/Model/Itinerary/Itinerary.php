@@ -61,4 +61,9 @@ class Itinerary {
     {
         return $this->agency;
     }
+
+    public function isOnline()
+    {
+        return $this->agency->isOnlineOn($this->market);
+    }
 }
