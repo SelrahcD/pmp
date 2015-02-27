@@ -7,6 +7,7 @@ use Pmp\Core\Events\EventRecorder;
 use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\Market\Market;
 use Pmp\Domain\Model\Itinerary\Itinerary;
+use Pmp\Domain\Model\Agency\Agency;
 
 /**
  * @ORM\Entity
@@ -43,6 +44,8 @@ class Quote {
      */
     private $itinerary;
 
+    private $agency;
+
     /**
      * @ORM\ManyToOne(targetEntity="Pmp\Domain\Model\User\User", inversedBy="quotes")
      * @ORM\JoinColumn(nullable=false)
@@ -51,22 +54,23 @@ class Quote {
 
     private $pricingItems;
 
-    private function __construct(Key $key, User $customer, Market $market)
+    private function __construct(Key $key, User $customer, Market $market, Agency $agency)
     {
         $this->communication_key = $key->toNative();
         $this->customer          = $customer;
         $this->market            = $market;
+        $this->agency            = $agency;
         $this->pricingItems      = new ArrayCollection();
     }
 
-    public function createFromScratch(Key $key, User $customer, Market $market)
+    public function createFromScratch(Key $key, User $customer, Market $market, Agency $agency)
     {
-        return new self($key, $customer, $market);
+        return new self($key, $customer, $market, $agency);
     }
 
     public function createFromItinerary(Key $key, User $customer, Itinerary $itinerary)
     {
-        $quote = new self($key, $customer, $itinerary->getMarket());
+        $quote = new self($key, $customer, $itinerary->getMarket(), $itinerary->getAgency());
 
         $quote->setAssociatedItinerary($itinerary);
 
@@ -88,6 +92,11 @@ class Quote {
     public function getAssignedAgent()
     {
         return $this->assigned_agent;
+    }
+
+    public function getAgency()
+    {
+        return $this->agency;
     }
 
     public function chargeForCommissionableItem($label, $amount)

@@ -56,4 +56,9 @@ class Itinerary {
     {
         return $this->representativeAgent;
     }
+
+    public function getAgency()
+    {
+        return $this->agency;
+    }
 }

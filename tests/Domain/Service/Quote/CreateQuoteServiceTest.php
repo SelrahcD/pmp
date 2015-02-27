@@ -6,6 +6,7 @@ use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\User\Email;
 use Pmp\Domain\Model\Market\Market;
 use Pmp\Domain\Model\Market\Url;
+use Pmp\Domain\Model\Agency\Agency;
 
 class CreateQuoteServiceTest extends PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,8 @@ class CreateQuoteServiceTest extends PHPUnit_Framework_TestCase
 
         $user = User::register(new Email('poney@poney.fr'));
         $market = new Market(new Url('http://poney.fr'));
-        $quote = $this->service->createQuoteForMember($user, $market);
+        $agency = Agency::referenceAgency('BZHTour');
+        $quote = $this->service->createQuoteForMember($user, $market, $agency);
 
         $this->assertInstanceOf('Pmp\Domain\Model\Quote\Quote', $quote);
     }
@@ -47,7 +49,8 @@ class CreateQuoteServiceTest extends PHPUnit_Framework_TestCase
         $this->registerUserService->shouldReceive('register')->once()->with('poney@poney.fr')->andReturn(User::register(new Email('poney@poney.fr')));
 
         $market = new Market(new Url('http://poney.fr'));
-        $quote = $this->service->createQuoteForGuest('poney@poney.fr', $market);
+        $agency = Agency::referenceAgency('BZHTour');
+        $quote = $this->service->createQuoteForGuest('poney@poney.fr', $market, $agency);
 
         $this->assertInstanceOf('Pmp\Domain\Model\Quote\Quote', $quote);
     }

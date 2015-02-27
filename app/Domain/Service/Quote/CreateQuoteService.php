@@ -8,6 +8,7 @@ use Pmp\Domain\Model\Quote\QuoteRepository;
 use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\Quote\Quote;
 use Pmp\Domain\Model\Market\Market;
+use Pmp\Domain\Model\Agency\Agency;
 
 class CreateQuoteService
 {
@@ -21,21 +22,21 @@ class CreateQuoteService
         $this->registerUserService  = $registerUserService;
     }
 
-    public function createQuoteForMember(User $member, Market $market)
+    public function createQuoteForMember(User $member, Market $market, Agency $agency)
     {
-        return $this->createAndSaveQuote($member, $market);
+        return $this->createAndSaveQuote($member, $market, $agency);
     }
 
-    public function createQuoteForGuest($email, Market $market)
+    public function createQuoteForGuest($email, Market $market, Agency $agency)
     {
         $user = $this->registerUserService->register($email);
 
-        return $this->createAndSaveQuote($user, $market);
+        return $this->createAndSaveQuote($user, $market, $agency);
     }
 
-    private function createAndSaveQuote(User $user, Market $market)
+    private function createAndSaveQuote(User $user, Market $market, Agency $agency)
     {
-        $quote = Quote::createFromScratch($this->getValidQuoteKey(), $user, $market);
+        $quote = Quote::createFromScratch($this->getValidQuoteKey(), $user, $market, $agency);
 
         $this->quoteRepository->add($quote);
 

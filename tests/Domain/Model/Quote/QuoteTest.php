@@ -28,7 +28,7 @@ class QuoteTest extends PHPUnit_Framework_TestCase
     */
    public function createFromScratch_returns_a_quote()
    {
-        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
         $this->assertInstanceOf('Pmp\Domain\Model\Quote\Quote', $quote);
    }
 
@@ -62,9 +62,18 @@ class QuoteTest extends PHPUnit_Framework_TestCase
    /**
     * @test
     */
+   public function createFromItinerary_sets_agency_to_itinerary_agency()
+   {
+        $quote = Quote::createFromItinerary($this->key, $this->customer, $this->itinerary);
+        $this->assertEquals($this->agency, $quote->getAgency());
+   }
+
+   /**
+    * @test
+    */
    public function assignToAgent_stores_assigned_agent()
    {
-        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
         $quote->assignToAgent($this->agent);
         $this->assertEquals($this->agent, $quote->getAssignedAgent());
    }
@@ -74,7 +83,7 @@ class QuoteTest extends PHPUnit_Framework_TestCase
     */
    public function getAmount_returns_the_sum_of_princing_items()
    {
-        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
         $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
         $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
         $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
@@ -86,7 +95,7 @@ class QuoteTest extends PHPUnit_Framework_TestCase
     */
    public function getCommissionAmount_returns_the_sum_of_commissionable_princing_items()
    {
-        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
         $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
         $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
         $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
@@ -98,7 +107,7 @@ class QuoteTest extends PHPUnit_Framework_TestCase
     */
    public function removePricingItem_removes_pricing_item()
    {
-        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market);
+        $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
         $quote->chargeForCommissionableItem('truc 1', Money::EUR(1000));
         $quote->chargeForCommissionableItem('truc 2', Money::EUR(500));
         $quote->chargeforNonCommissionableItem('truc 3', Money::EUR(500));
