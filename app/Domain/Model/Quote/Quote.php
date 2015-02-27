@@ -8,6 +8,9 @@ use Pmp\Domain\Model\User\User;
 use Pmp\Domain\Model\Market\Market;
 use Pmp\Domain\Model\Itinerary\Itinerary;
 use Pmp\Domain\Model\Agency\Agency;
+use Money\Money;
+use Money\Currency;
+use InvalidArgumentException;
 
 /**
  * @ORM\Entity
@@ -99,13 +102,15 @@ class Quote {
         return $this->agency;
     }
 
-    public function chargeForCommissionableItem($label, $amount)
+    public function chargeForCommissionableItem($label, Money $amount)
     {
+        $this->ensureMoneyIsInEUR($amount);
         $this->pricingItems[] = new PricingItem($label, $amount, 0.10);
     }
 
-    public function chargeForNonCommissionableItem($label, $amount)
+    public function chargeForNonCommissionableItem($label, Money $amount)
     {
+        $this->ensureMoneyIsInEUR($amount);
         $this->pricingItems[] = new PricingItem($label, $amount, 0);
     }
 
@@ -127,7 +132,7 @@ class Quote {
             }
 
             return $total->add($pricingItem->getAmount());
-        });
+        }, Money::EUR(0));
     }
 
     public function getCommissionAmount()
@@ -138,11 +143,19 @@ class Quote {
             }
 
             return $total->add($pricingItem->getCommission());
-        });
+        }, Money::EUR(0));
     }
 
     private function setAssociatedItinerary(Itinerary $itinerary)
     {
         $this->itinerary = $itinerary;
+    }
+
+    private function ensureMoneyIsInEUR(Money $money)
+    {
+        $EUR = new Currency('EUR');
+        if(! $EUR->equals($money->getCurrency())){
+            throw new InvalidArgumentException('Only EUR is allowed');
+        }
     }
 }

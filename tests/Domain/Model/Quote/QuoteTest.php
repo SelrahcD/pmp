@@ -79,6 +79,26 @@ class QuoteTest extends PHPUnit_Framework_TestCase
    }
 
    /**
+    * test
+    * @expectedException InvalidArgumentException
+    */
+  public function chargingWithCommission_with_non_EUR_amount_throws_InvalidArgumentException()
+  {
+    $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
+    $quote->chargeForCommissionableItem('truc 1', Money::USD(1000));
+  }
+
+  /**
+    * test
+    * @expectedException InvalidArgumentException
+    */
+  public function chargingWithoutCommission_with_non_EUR_amount_throws_InvalidArgumentException()
+  {
+    $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
+    $quote->chargeForNonCommissionableItem('truc 1', Money::USD(1000));
+  }
+
+   /**
     * @test
     */
    public function getAmount_returns_the_sum_of_princing_items()
@@ -120,5 +140,23 @@ class QuoteTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Money::EUR(1000)->equals($quote->getAmount()));
         $this->assertEquals(2, count($quote->getPricingItems()));
    }
+
+   /**
+    * @test
+    */
+  public function if_no_pricingItem_added_amount_equals_0EUR()
+  {
+    $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
+    $this->assertTrue(Money::EUR(0)->equals($quote->getAmount()));
+  }
+
+  /**
+   * @test
+  */
+  public function if_no_pricingItem_added_commission_equals_0EUR()
+  {
+    $quote = Quote::createFromScratch($this->key, $this->customer, $this->market, $this->agency);
+    $this->assertTrue(Money::EUR(0)->equals($quote->getCommissionAmount()));
+  }
 
 }
