@@ -73,25 +73,38 @@ class Agency {
 
     public function getProductionManager(Market $market)
     {
-        foreach($this->agencyMarketLinks as $agencyMarketLink) {
-            if($agencyMarketLink->getMarket() === $market) {
-                return $agencyMarketLink->getProductionManager();
-            }
-        }
-
-        throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
+        return $this->getMarketLink($market)->getProductionManager();
     }
 
     public function changeProductionManager(Market $market, User $productionManager)
     {
+        return $this->getMarketLink($market)->changeProductionManager($productionManager);
+    }
+
+    public function isOnlineOn(Market $market)
+    {
+        return $this->getMarketLink($market)->isOnline();
+    }
+
+    public function setOnline(Market $market)
+    {
+        $this->getMarketLink($market)->setOnline();
+    }
+
+    public function setOffline(Market $market)
+    {
+        $this->getMarketLink($market)->setOffline();
+    }
+
+    private function getMarketLink(Market $market)
+    {
         foreach($this->agencyMarketLinks as $agencyMarketLink) {
             if($agencyMarketLink->getMarket() === $market) {
-                return $agencyMarketLink->changeProductionManager($productionManager);
+                return $agencyMarketLink;
             }
         }
 
         throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
-   
     }
 
     public function __toString()

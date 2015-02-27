@@ -119,5 +119,34 @@ class AgencyTest extends PHPUnit_Framework_TestCase
         $this->agency->changeProductionManager($this->market, $this->produtionManager2);
     }
 
+    /**
+     * @test
+     */
+    public function an_agency_prospected_is_offline_on_market()
+    {
+        $this->agency->prospect($this->market, $this->produtionManager1);
+        $this->assertFalse($this->agency->isOnlineOn($this->market));
+    }
 
+    /**
+     * @test
+     */
+    public function setOnline_sets_agency_online_for_market()
+    {
+        $this->agency->prospect($this->market, $this->produtionManager1);
+        $this->agency->setOnline($this->market);
+        $this->assertTrue($this->agency->isOnlineOn($this->market));
+    }
+
+    /**
+     * @test
+     */
+    public function setOffline_sets_agency_offline_for_market()
+    {
+        $this->agency->prospect($this->market, $this->produtionManager1);
+        $this->agency->setOnline($this->market);
+        $this->assertTrue($this->agency->isOnlineOn($this->market));
+        $this->agency->setOffline($this->market);
+        $this->assertFalse($this->agency->isOnlineOn($this->market));
+    }
 }

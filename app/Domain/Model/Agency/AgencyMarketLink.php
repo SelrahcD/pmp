@@ -11,6 +11,10 @@ use Pmp\Domain\Model\User\User;
  */
 class AgencyMarketLink {
 
+    const PROSPECTION = 0;
+    const OFFLINE = 1;
+    const ONLINE = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -33,11 +37,17 @@ class AgencyMarketLink {
      */
     private $productionManager;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $state;
+
     public function __construct(Agency $agency, Market $market, User $productionManager)
     {
         $this->agency            = $agency;
         $this->market            = $market;
         $this->productionManager = $productionManager;
+        $this->state             = self::OFFLINE;
     }
 
     public function getMarket()
@@ -53,5 +63,20 @@ class AgencyMarketLink {
     public function changeProductionManager(User $productionManager)
     {
         $this->productionManager = $productionManager;  
+    }
+
+    public function setOnline()
+    {
+        $this->state = self::ONLINE;
+    }
+
+    public function setOffline()
+    {
+        $this->state = self::OFFLINE;
+    }
+
+    public function isOnline()
+    {
+        return $this->state === self::ONLINE;
     }
 }
