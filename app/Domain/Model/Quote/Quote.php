@@ -121,36 +121,24 @@ class Quote {
 
     public function getAmount()
     {
-        $total = null;
-
-        foreach($this->pricingItems as $pricingItem)
-        {
+        return array_reduce($this->pricingItems->toArray(), function($total, $pricingItem) {
             if(!$total) {
-                $total = $pricingItem->getAmount();
+                return $pricingItem->getAmount();
             }
-            else {
-                $total = $total->add($pricingItem->getAmount());
-            }
-        }
 
-        return $total;
+            return $total->add($pricingItem->getAmount());
+        });
     }
 
     public function getCommissionAmount()
     {
-        $total = null;
-
-        foreach($this->pricingItems as $pricingItem)
-        {
+        return array_reduce($this->pricingItems->toArray(), function($total, $pricingItem) {
             if(!$total) {
-                $total = $pricingItem->getCommission();
+                return $pricingItem->getCommission();
             }
-            else {
-                $total = $total->add($pricingItem->getCommission());
-            }
-        }
 
-        return $total;
+            return $total->add($pricingItem->getCommission());
+        });
     }
 
     private function setAssociatedItinerary(Itinerary $itinerary)
