@@ -62,13 +62,17 @@ class Agency {
 
     public function isReferencedOn(Market $market)
     {
-        foreach($this->agencyMarketLinks as $agencyMarketLink) {
-            if($agencyMarketLink->getMarket() === $market) {
-                return true;
-            }
+        try
+        {
+            $this->getMarketLink($market);
+
+            return true;
+        }
+        catch(DomainException $exception)
+        {
+            return false;
         }
 
-        return false;
     }
 
     public function getProductionManager(Market $market)
