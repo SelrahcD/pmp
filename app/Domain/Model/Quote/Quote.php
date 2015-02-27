@@ -153,8 +153,7 @@ class Quote {
 
     private function ensureMoneyIsInEUR(Money $money)
     {
-        $EUR = new Currency('EUR');
-        if(! $EUR->equals($money->getCurrency())){
+        if(! $money->getCurrency()->equals(new Currency('EUR'))){
             throw new InvalidArgumentException('Only EUR is allowed');
         }
     }
