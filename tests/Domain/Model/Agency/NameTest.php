@@ -50,4 +50,13 @@ class NameTest extends PHPUnit_Framework_TestCase
     {
         new Name(1);
     }
+
+    /**
+     * @test
+     */
+    public function toString_returns_value()
+    {
+        $name = new Name('Poney');
+        $this->assertEquals('Poney', $name->__toString());
+    }
 }

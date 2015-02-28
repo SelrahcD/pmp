@@ -78,4 +78,13 @@ class KeyTest extends PHPUnit_Framework_TestCase
     {
         new Key('toolong');
     }
+
+    /**
+     * @test
+     */
+    public function toString_returns_value()
+    {
+        $key = new Key('Poney');
+        $this->assertEquals('Poney', $key->__toString());
+    }
 }

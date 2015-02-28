@@ -127,10 +127,6 @@ class Quote {
     public function getAmount()
     {
         return array_reduce($this->pricingItems->toArray(), function($total, $pricingItem) {
-            if(!$total) {
-                return $pricingItem->getAmount();
-            }
-
             return $total->add($pricingItem->getAmount());
         }, Money::EUR(0));
     }
@@ -138,10 +134,6 @@ class Quote {
     public function getCommissionAmount()
     {
         return array_reduce($this->pricingItems->toArray(), function($total, $pricingItem) {
-            if(!$total) {
-                return $pricingItem->getCommission();
-            }
-
             return $total->add($pricingItem->getCommission());
         }, Money::EUR(0));
     }

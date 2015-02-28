@@ -59,4 +59,13 @@ class UrlTest extends PHPUnit_Framework_TestCase
     {
         Url::fromNative('poney.fr');
     }
+
+    /**
+     * @test
+     */
+    public function toString_returns_value()
+    {
+        $url = new Url('http://poney.fr');
+        $this->assertEquals('http://poney.fr', $url->__toString());
+    }
 }

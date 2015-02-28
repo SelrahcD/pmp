@@ -50,4 +50,13 @@ class TitleTest extends PHPUnit_Framework_TestCase
     {
         new Title(1);
     }
+
+    /**
+     * @test
+     */
+    public function toString_returns_value()
+    {
+        $title = new Title('Poney');
+        $this->assertEquals('Poney', $title->__toString());
+    }
 }

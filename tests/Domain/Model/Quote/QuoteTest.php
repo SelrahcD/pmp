@@ -79,7 +79,7 @@ class QuoteTest extends PHPUnit_Framework_TestCase
    }
 
    /**
-    * test
+    * @test
     * @expectedException InvalidArgumentException
     */
   public function chargingWithCommission_with_non_EUR_amount_throws_InvalidArgumentException()
@@ -89,7 +89,7 @@ class QuoteTest extends PHPUnit_Framework_TestCase
   }
 
   /**
-    * test
+    * @test
     * @expectedException InvalidArgumentException
     */
   public function chargingWithoutCommission_with_non_EUR_amount_throws_InvalidArgumentException()
