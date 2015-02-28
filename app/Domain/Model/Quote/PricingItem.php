@@ -31,6 +31,6 @@ class PricingItem
 
     public function getCommission()
     {
-        return reset($this->amount->allocate([$this->commissionRate, 1 - $this->commissionRate]));
+        return current($this->amount->allocate([$this->commissionRate, 1 - $this->commissionRate]));
     }
 }
