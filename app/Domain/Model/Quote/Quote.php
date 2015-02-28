@@ -66,12 +66,12 @@ class Quote {
         $this->pricingItems      = new ArrayCollection();
     }
 
-    public function createFromScratch(Key $key, User $customer, Market $market, Agency $agency)
+    static public function createFromScratch(Key $key, User $customer, Market $market, Agency $agency)
     {
         return new self($key, $customer, $market, $agency);
     }
 
-    public function createFromItinerary(Key $key, User $customer, Itinerary $itinerary)
+    static public function createFromItinerary(Key $key, User $customer, Itinerary $itinerary)
     {
         $quote = new self($key, $customer, $itinerary->getMarket(), $itinerary->getAgency());
 
