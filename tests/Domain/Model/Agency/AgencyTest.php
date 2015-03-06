@@ -15,6 +15,7 @@ class AgencyTest extends PHPUnit_Framework_TestCase
         $this->agency = Agency::referenceAgency('Poney');
         $this->produtionManager1 = User::register(new Email('prod@poney.fr'));
         $this->produtionManager2 = User::register(new Email('prod@poney.fr'));
+        $this->agent = User::register(new Email('agent@poney.fr'));
         $this->market = new Market(new Url('http://market1.fr'));
     }
 
@@ -149,4 +150,56 @@ class AgencyTest extends PHPUnit_Framework_TestCase
         $this->agency->setOffline($this->market);
         $this->assertFalse($this->agency->isOnlineOn($this->market));
     }
+
+    /**
+     * @test
+     */
+    public function enlistAgent_enlist_a_user_as_agent_for_market()
+    {
+        $this->agency->enlistAgent($this->agent, $this->market);
+        $this->assertTrue($this->agency->isAgent($this->agent, $this->market));
+    }
+
+    /**
+     * @test
+     */
+    public function enlistManager_enlist_a_user_as_manager_for_market()
+    {
+        $this->agency->enlistManager($this->agent, $this->market);
+        $this->assertTrue($this->agency->isManager($this->agent, $this->market));
+    }
+
+    /**
+     * @test
+     */
+    public function isAgent_returns_true_if_user_is_a_manager()
+    {
+        $this->agency->enlistManager($this->agent, $this->market);
+        $this->assertTrue($this->agency->isAgent($this->agent, $this->market));
+    }
+
+    /**
+     * @test
+     */
+    public function promoteToManager_promotes_an_agent_to_manager()
+    {
+        $this->agency->enlistAgent($this->agent, $this->market);
+        $this->assertTrue($this->agency->isAgent($this->agent, $this->market));
+        $this->agency->promoteToManager($this->agent, $this->market);
+        $this->assertTrue($this->agency->isManager($this->agent, $this->market));
+    }
+
+    /**
+     * @test
+     */
+    public function downgradeToAgent_downgrade_a_manager_to_agent()
+    {
+        $this->agency->enlistManager($this->agent, $this->market);
+        $this->assertTrue($this->agency->isManager($this->agent, $this->market));
+        $this->agency->downgradeToAgent($this->agent, $this->market);
+        $this->assertFalse($this->agency->isManager($this->agent, $this->market));
+    }
+
+
+
 }

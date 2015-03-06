@@ -43,4 +43,9 @@ class AgencyAgentLink {
     {
         return $this->market;
     }
+
+    public function isManager()
+    {
+        return $this->role === self::ROLE_MANAGER;
+    }
 }

@@ -110,7 +110,7 @@ class Agency {
 
     public function enlistManager(User $manager, Market $market)
     {
-        $agencyAgentLink = new AgencyAgentLink($this, $agent, $market);
+        $agencyAgentLink = new AgencyAgentLink($this, $manager, $market);
 
         $agencyAgentLink->promoteToManagerRole();
 
@@ -125,6 +125,32 @@ class Agency {
     public function downgradeToAgent(User $agent, Market $market)
     {
         $this->getAgentLink($agent, $market)->downgradeToAgentRole();
+    }
+
+    public function isAgent(User $user, Market $market)
+    {
+        try
+        {
+            $this->getAgentLink($user, $market);
+
+            return true;
+        }
+        catch(DomainException $e)
+        {
+            return false;
+        }
+    }
+
+    public function isManager(User $user, Market $market)
+    {
+        try
+        {
+            return $this->getAgentLink($user, $market)->isManager();
+        }
+        catch(DomainException $e)
+        {
+            return false;
+        }
     }
 
     private function getMarketLink(Market $market)
