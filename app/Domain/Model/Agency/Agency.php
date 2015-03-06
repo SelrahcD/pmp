@@ -34,10 +34,13 @@ class Agency {
      */
     private $agencyMarketLinks;
 
+    private $agencyAgentLinks;
+
     private function __construct(Name $name)
     {
         $this->name              = $name->toNative();
         $this->agencyMarketLinks = new ArrayCollection();
+        $this->agencyAgentLinks  = new ArrayCollection();
     }
 
     static public function referenceAgency($name)
@@ -100,6 +103,30 @@ class Agency {
         $this->getMarketLink($market)->setOffline();
     }
 
+    public function enlistAgent(User $agent, Market $market)
+    {
+        $this->agencyAgentLinks[] = new AgencyAgentLink($this, $agent, $market);
+    }
+
+    public function enlistManager(User $manager, Market $market)
+    {
+        $agencyAgentLink = new AgencyAgentLink($this, $agent, $market);
+
+        $agencyAgentLink->promoteToManagerRole();
+
+        $this->agencyAgentLinks[] = $agencyAgentLink;
+    }
+
+    public function promoteToManager(User $agent, Market $market)
+    {
+        $this->getAgentLink($agent, $market)->promoteToManagerRole();
+    }
+
+    public function downgradeToAgent(User $agent, Market $market)
+    {
+        $this->getAgentLink($agent, $market)->downgradeToAgentRole();
+    }
+
     private function getMarketLink(Market $market)
     {
         foreach($this->agencyMarketLinks as $agencyMarketLink) {
@@ -109,6 +136,17 @@ class Agency {
         }
 
         throw new DomainException(sprintf('Agency %s is not referenced on market %s', $this, $market));
+    }
+
+    private function getAgentLink(User $agent, Market $market)
+    {
+        foreach($this->agencyAgentLinks as $agencyAgentLink) {
+            if($agencyAgentLink->getMarket() === $market && $agencyAgentLink->getAgent() === $agent) {
+                return $agencyAgentLink;
+            }
+        }
+
+        throw new DomainException(sprintf('User %s is not an agent for %s on market %s', $agent, $this, $market));
     }
 
     public function __toString()
