@@ -102,6 +102,11 @@ class Quote {
         return $this->agency;
     }
 
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
     public function chargeForCommissionableItem($label, Money $amount)
     {
         $this->ensureMoneyIsInEUR($amount);
